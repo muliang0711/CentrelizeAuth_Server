@@ -1,0 +1,21 @@
+{
+  "name": "redis-manager",
+  "version": "1.0.0",
+  "main": "dist/redisManager.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/redisManager.js"
+  },
+  "dependencies": {
+    "ioredis": "^5.6.1",
+    "shared-types": "file:../shared-types"
+  },
+  "devDependencies": {
+    "@types/node": "^22.15.29",
+    "typescript": "^5.8.3",
+    "ts-node": "^10.9.2"
+  }
+}
+
+
+

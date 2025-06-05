@@ -1,0 +1,24 @@
+{
+  "name": "grpc-manager",
+  "version": "1.0.0",
+  "main": "dist/grpcServer.js",
+  "scripts": {
+    "build": "tsc",
+    "start": "node dist/grpcServer.js",
+    "dev": "ts-node src/grpcServer.ts"
+  },
+  "dependencies": {
+    "@grpc/grpc-js": "^1.8.13",
+    "@grpc/proto-loader": "^0.7.8",
+    "shared-types": "^1.0.0",
+    "uuid": "^11.1.0",
+    "jsonwebtoken": "^9.0.2"
+  },
+  "devDependencies": {
+    "typescript": "^5.3.3",
+    "ts-node": "^10.9.2",
+    "@types/node": "^20.9.0",
+    "@types/uuid": "^10.0.0",
+    "@types/jsonwebtoken": "^9.0.9"
+  }
+}
