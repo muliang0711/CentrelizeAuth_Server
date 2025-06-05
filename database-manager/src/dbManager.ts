@@ -1,4 +1,4 @@
-// src/db/MySQLManager.ts
+// database-manager/src/dbManager.ts
 import * as mysql from 'mysql2/promise';
 
 export class MySQLManager {
