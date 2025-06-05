@@ -1,0 +1,36 @@
+version: '3.8'  # Or just remove this line to avoid warnings
+
+services:
+  auth-server:
+    build: .
+    ports:
+      - "50051:50051"
+    depends_on:
+      - redis
+      - mysql
+    environment:
+      REDIS_HOST: redis
+      REDIS_PORT: 6379
+      DB_HOST: mysql
+      DB_USER: root
+      DB_PASS: 1234aaa0987
+      DB_NAME: userServer
+
+  redis:
+    image: redis:alpine
+    ports:
+      - "6379:6379"
+
+  mysql:
+    image: mysql:8.0
+    ports:
+      - "3306:3307"
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234aaa0987
+      MYSQL_DATABASE: userServer
+      
+    volumes:
+      - mysql-data:/var/lib/mysql
+
+volumes:
+  mysql-data:

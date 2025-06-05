@@ -1,0 +1,9 @@
+🔧 What You Can Do When Session Is Saved in DB
+Feature / Operation	                            Why You Need DB
+🔐 Revoke a specific session                DB lets you mark one session as “inactive”
+🧠 Track how many sessions a user has	    e.g., show "logged in on 3 devices"
+👣 Audit login behavior	                    Track login IPs, devices, timestamps
+🔁 Logout from all devices	                Delete all DB sessions by userId
+📊 Session analytics	                    Show user activity time, active session duration
+🔄 Restore Redis after crash	            Reload from DB backup
+💣 Kill stolen sessions	                    Mark token/session as revoked in DB
