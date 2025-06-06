@@ -1,7 +1,7 @@
 
-import { User } from '../Models/User';
-import { UserManager } from '../service/UserService';
-import { Result } from '../../../shared-types/dist/common'; 
+import { User } from '../../../database-manager/src/Models/User';
+import { UserManager } from '../../../database-manager/src/Services/UserService';
+import { Result } from 'shared-types';
 import { tokenManager} from '../service/jwtService';
 import { SessionManager } from '../service/sessionService';
 export class UserController {
@@ -9,6 +9,7 @@ export class UserController {
     public static async RegisterUser(call : any , callback :any ){
         const {name , email , password} = call.request;
         const user = new User('', name, email, password);
+        // make a grpc call to UserManager to register the user
         const result: Result<User> = await UserManager.registerUser(user);
         if (result.success) {
             const user = result.data ? User.toJSON(result.data) : null;

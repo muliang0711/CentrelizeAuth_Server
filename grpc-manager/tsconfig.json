@@ -10,5 +10,5 @@
     "declaration": true,
     "declarationDir": "./dist"
   },
-  "include": ["src/**/*"]
+  "include": ["src/**/*", "../database-manager/src/Repositories/UserRepository.ts", "../database-manager/src/Services/UserService.ts", "../database-manager/src/Models"]
 }

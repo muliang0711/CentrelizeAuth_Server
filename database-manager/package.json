@@ -1,9 +1,14 @@
 {
   "dependencies": {
-    "mysql2": "^3.14.1"
+    "@grpc/grpc-js": "^1.8.13",
+    "@grpc/proto-loader": "^0.7.8",
+    "mysql2": "^3.14.1",
+    "uuid": "^11.1.0",
+    "shared-types": "file:../shared-types"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
+    "@types/uuid": "^10.0.0",
     "typescript": "^5.8.3"
   }
 }

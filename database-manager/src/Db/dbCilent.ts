@@ -1,12 +1,12 @@
 // src/db/MySQLManager.ts
 import * as mysql from 'mysql2/promise';
 
-export class MySQLManager {
+export class MySQLClient {
     private static pool: mysql.Pool;
 
     public static async initialize(): Promise<void> {
         this.pool = mysql.createPool({
-            host:  'localhost',
+            host:  'localhost', // Use 'mysql' if running in Docker, or 'localhost' if running locally
             user:  'root',
             password:  '1234aaa0987',
             database:  'userServer',

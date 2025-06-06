@@ -3,7 +3,7 @@ import Redis from 'ioredis';
 import { SessionData } from 'shared-types';
 
 export class RedisManager {
-    private static redisHost = 'localhost';
+    private static redisHost = 'redis';
     private static redisPort = 6379;
     private static redis = new Redis({
         host: this.redisHost,

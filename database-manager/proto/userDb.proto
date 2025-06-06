@@ -1,0 +1,38 @@
+syntax = "proto3";
+// proto/user.proto
+
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc RegisterUser (RegisterRequestDB) returns (UserRegisterResponseDB);
+  rpc LoginUser (LoginRequestDB)       returns (UserLoginResponseDB);
+}
+
+message RegisterRequestDB {
+  string userName     = 1;
+  string email    = 2;
+  string password = 3;
+}
+
+message LoginRequestDB {
+  string email    = 1;
+  string password = 2;
+}
+
+message UserRegisterResponseDB {
+  bool    success     = 1;
+  string  message     = 2;
+  string  uuid        = 3;
+  string  userName    = 4;
+  string  email       = 5;
+}
+
+message UserLoginResponseDB {
+  bool    success     = 1;
+  string  message     = 2;
+  string  uuid        = 3;
+  string  userName    = 4;
+  string  email       = 5;
+}

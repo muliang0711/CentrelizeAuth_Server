@@ -10,3 +10,10 @@ export interface SessionData {
     userEmail: string;
     userName: string;
 }
+
+export interface SessionData1111 {
+    sessionID: string;  
+    userUUID: string;
+    userEmail: string;
+    userName: string;
+}
