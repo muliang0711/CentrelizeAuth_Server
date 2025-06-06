@@ -2,26 +2,25 @@
 
 import { RedisManager } from '../redisManager';
 
-const TTL_SECONDS = 60 * 60 * 24 * 30; // 30 days in seconds
 
 export class SessionRedisController {
 
-    
+
     public static async StoreSessionToRedis(call: any, callback: any) {
         try {
-            const { sessionData } = call.request;
+            const { sessionData , exptime } = call.request;
 
             if (!sessionData?.sessionID) {
                 return callback(null, { success: false, message: 'Session ID is required' });
             }
 
             const redisKey = `session:${sessionData.sessionID}`;
-            await RedisManager.setSessionDataAsHash(redisKey, sessionData, TTL_SECONDS);
-
+            await RedisManager.setSessionDataAsHash(redisKey, sessionData, exptime);
+ 
             return callback(null, {
-                success: true,
+                success: true , 
                 sessionData,
-                validtime: TTL_SECONDS
+                validtime: exptime 
             });
 
         } catch (err) {
@@ -30,7 +29,7 @@ export class SessionRedisController {
         }
     }
 
-    public static async CheckSessionInRedis(call: any, callback: any) {
+    public static async CheckSessionInRedis(call: {request : {sessionID : string } }, callback: any) {
         try {
             const { sessionID } = call.request;
             const redisKey = `session:${sessionID}`;
@@ -39,6 +38,7 @@ export class SessionRedisController {
             if (!sessionData) {
                 
                 return callback(null, { success: false , message: 'Session not found' });
+
             }
 
             return callback(null, {
@@ -52,4 +52,33 @@ export class SessionRedisController {
             return callback(err, null);
         }
     }
+
+    public static async DeleteSessionDataInRedisById(
+        call: {request :{ sessionID: string }}, 
+        callback: (error: any | null, response?: { success: boolean; message: string }) => void ){
+        try {
+            const { sessionID } = call.request ;
+            const redisKey =   `session:${sessionID}`;
+
+            const deleteResult = await RedisManager.deleteSessionData(redisKey);
+
+            if(deleteResult === 0 ){
+                return callback(null , {
+                    success : false ,
+                    message : `NO session found for ID ${sessionID}`
+                });
+            }
+            return callback(null, {
+                success: true,
+                message: `Session with ID ${sessionID} deleted successfully`
+            });
+        } catch (err) {
+            console.error('❌ Error in DeleteSessionDataInRedisById:', err);
+            return callback(err , {
+                success : false ,
+                message : "Delete Session failed " + err  
+            });
+        }
+    }  
+
 };

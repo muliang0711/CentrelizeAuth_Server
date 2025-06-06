@@ -6,19 +6,20 @@ syntax = "proto3";
 package user;
 
 service SessionRedisService {
-    rpc StoreSessionToRedis (StoreSessionToRedisRequest) returns (StoreSessionToRedisResponse);
-    rpc CheckSessionInRedis (CheckSessionInRedisRequest) returns (CheckSessionInRedisResponse);
-   
+    rpc StoreSessionDataToRedis (StoreSessionToRedisRequest) returns (StoreSessionToRedisResponse);
+    rpc CheckSessionDataInRedis (CheckSessionInRedisRequest) returns (CheckSessionInRedisResponse);
+    rpc DeleteSessionDataInRedisById (DeleteSessionInRedisByIdRequest) returns (DeleteSessionDataInRedisByIdResponse);
 }
 
 message StoreSessionToRedisRequest{
     SessionData sessionData = 1 ; 
+    int32 exptime = 2 ; 
 }
 
 message StoreSessionToRedisResponse{
-    bool success = 1 
+    bool success = 1 ;
     SessionData sessionData = 2  ; 
-    string message = 2 ;  
+    string message = 3 ;  
 }
 
 message SessionData {
@@ -28,20 +29,29 @@ message SessionData {
     string userName = 4 ; 
 }
 
-CheckSessionInRedisRequest{
+message CheckSessionInRedisRequest{
     string sessionID = 1 ; 
 }
 
-CheckSessionInRedisResponse{
+message CheckSessionInRedisResponse{
     bool success = 1 ;
     SessionData sessionData = 2 ; 
 }
 
-CheckSessionValidInDbRequest{
+message CheckSessionValidInDbRequest{
     string sessionID = 1 ;
 }
-CheckSessionValidInDbResponse{
+message CheckSessionValidInDbResponse{
     bool sucess = 1 ; 
     SessionData sessionData = 2 ; 
     string message = 3 ; 
+}
+
+message DeleteSessionInRedisByIdRequest{
+    string sessionID = 1 ; 
+}
+
+message DeleteSessionDataInRedisByIdResponse{
+    bool  success = 1 ; 
+    string message = 2 ; 
 }

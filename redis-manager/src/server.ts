@@ -1,13 +1,10 @@
-// src/server.ts
-
-import { RedisClient } from './Redis/redisClient';
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import {SessionRedisController} from './Controller/UserController';
-
+import { RedisManager} from './redisManager'
 // 1. Load proto file
-const userProtoPath = path.resolve(__dirname, '../proto/user.proto');
+const userProtoPath = path.resolve(__dirname, '../proto/userRd.proto');
 const userProtoDefinition = protoLoader.loadSync(userProtoPath, {
     keepCase: true,
     longs: String,
@@ -23,7 +20,8 @@ const userPackage = grpcObj.user;
 // 2. Start gRPC server
 async function main() {
     try {
-        await RedisClient.init();
+
+        await RedisManager.init(); 
         console.log('✅ Redis Client Initialized');
 
         const server = new grpc.Server();
@@ -32,6 +30,7 @@ async function main() {
         server.addService(userPackage.SessionRedisService.service, {
             StoreSessionToRedis: SessionRedisController.StoreSessionToRedis,
             CheckSessionInRedis: SessionRedisController.CheckSessionInRedis,
+            DeleteSessionDataInRedisByID: SessionRedisController.DeleteSessionDataInRedisById
         });
 
         const PORT = '0.0.0.0:50053';
@@ -41,7 +40,6 @@ async function main() {
                 return;
             }
             console.log(`✅ gRPC server running at ${PORT}`);
-            server.start(); // Important: Start the server!
         });
     } catch (error) {
         console.error('❌ Failed to Initialize Redis Client or gRPC:', error);

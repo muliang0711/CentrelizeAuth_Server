@@ -2,7 +2,6 @@
   "compilerOptions": {
     "target": "ES2020",
     "module": "commonjs",
-    "rootDir": "./src",
     "outDir": "./dist",
     "strict": true,
     "esModuleInterop": true,
@@ -10,5 +9,8 @@
     "declaration": true,
     "declarationDir": "./dist"
   },
-  "include": ["src/**/*", "../database-manager/src/Repositories/UserRepository.ts", "../database-manager/src/Services/UserService.ts", "../database-manager/src/Models"]
+  "include": ["src/**/*",
+              "../database-manager/src/Repositories/UserRepository.ts", 
+              "../database-manager/src/Services/UserService.ts", 
+              "../database-manager/src/Models"]
 }
