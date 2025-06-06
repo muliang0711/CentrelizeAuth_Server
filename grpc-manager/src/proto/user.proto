@@ -6,9 +6,17 @@ syntax = "proto3";
 package user;
 
 service UserService {
+  // SOome Server for this Server 
   rpc RegisterUser (RegisterRequest) returns (UserRegisterResponse);
   rpc LoginUser (LoginRequest) returns (UserLoginResponse);
   rpc LoginWithToken (LoginWithTokenRequest) returns (LoginWithTokenResponse);
+
+  // TO DB Server : 
+  rpc RegisterUserDb (RegisterRequestDB) returns (UserRegisterResponseDB);
+  rpc LoginUserDb (LoginRequestDB)       returns (UserLoginResponseDB);
+  rpc StoreSessionDataToDB (StoreSessionDataToDbRequest) returns (StoreSessionDataToDbResponse);
+  rpc CheckSessionValidInDb (CheckSessionValidInDbRequest) returns (CheckSessionValidInDbResponse)
+  rpc IsEmailExistsInDb (IsEmailExistsInDbRequest) returns (IsEmailExistsInDbResponse)
 }
 
 message RegisterRequest {

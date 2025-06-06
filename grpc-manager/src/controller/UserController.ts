@@ -1,7 +1,5 @@
-
-import { User } from '../../../database-manager/src/Models/User';
-import { UserManager } from '../../../database-manager/src/Services/UserService';
-import { Result } from 'shared-types';
+import {  Result , SessionData  } from 'shared-types';
+import { User } from '../Models/User';
 import { tokenManager} from '../service/jwtService';
 import { SessionManager } from '../service/sessionService';
 export class UserController {
@@ -9,24 +7,7 @@ export class UserController {
     public static async RegisterUser(call : any , callback :any ){
         const {name , email , password} = call.request;
         const user = new User('', name, email, password);
-        // make a grpc call to UserManager to register the user
-        const result: Result<User> = await UserManager.registerUser(user);
-        if (result.success) {
-            const user = result.data ? User.toJSON(result.data) : null;
-            callback(null, { 
-                success: true,
-                message: result.message,
-                uuid: user ? user.uuid : null, 
-                userName: user ? user.userName : null,
-                email: user ? user.email : null,
-            });
-        } else {
-            callback({ 
-                code: 500,
-                message: result.message 
-            });
-        }
-    } 
+    }
 
     public static async LoginUser(call : any , callback : any){
         // 1. Extract email and password from the request
@@ -123,5 +104,7 @@ export class UserController {
         }
     }
 
+    public static async CheckIfEmailExists(call: any, callback: any) {
+    }
 }
 

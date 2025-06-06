@@ -18,10 +18,9 @@ export class RedisManager {
     }
 
     // Function that set the sesssion data in Redis in string format :
-    public static async setSessionDataAsString(sessionId: string, sessionData: any, ttlSeconds: number): Promise<void> {
-
-        await this.redis.setex(sessionId, ttlSeconds, JSON.stringify(sessionData));
-    } // not more used
+    //public static async setSessionDataAsString(sessionId: string, sessionData: any, ttlSeconds: number): Promise<void> {
+    //   await this.redis.setex(sessionId, ttlSeconds, JSON.stringify(sessionData));
+    // } // not more used
 
     // Function that set the session data in Redis with a hash :
     public static async setSessionDataAsHash(sessionId: string, sessionData: SessionData, ttlSeconds: number): Promise<void> {
@@ -48,5 +47,7 @@ export class RedisManager {
         }
         return null;
     }
+
+    
 
 }

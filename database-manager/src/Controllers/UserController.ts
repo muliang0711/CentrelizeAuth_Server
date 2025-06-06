@@ -1,7 +1,6 @@
 import { UserService } from '../Services/UserService';
 import { User } from '../Models/User';
 import { UserRepository } from '../Repositories/UserRepository';
-import { Result } from 'shared-types'; // Ensure shared-types is installed
 
 export class UserController {
 
@@ -9,21 +8,7 @@ export class UserController {
 
         //1 . Fetch user data from the request
         const { userName, email, password } = call.request;
-        // console.log('✅ [DEBUG] RegisterUser called with:', { userName, email, password });
-        // 2. Start validation checks :
 
-        // 2.1 Email duplicate check :
-        const emailExists = await UserService.checkEmailExists(email);
-        if (emailExists) {
-            return callback(null, { success: false, message: 'Email already exists' });
-        }
-
-        // ⛔️ 2.2 Password strength check :
-        if (!UserService.validatePasswordStrength(password)) {
-            return callback(null, { success: false, message: 'Password too weak' });
-        }
-
-        // ✅ 3. All validations passed, insert user
         const newUser = new User('', userName, email, password);
         const result = await UserRepository.UserRegister(newUser);
 
@@ -44,13 +29,6 @@ export class UserController {
         // 1. Extract email and password from the request
         const { email, password } = call.request;
 
-        // 2. Validate user credentials
-        // pending -----
-        const emailExists = await UserService.checkEmailExists(email);
-        if (!emailExists) {
-            return callback(null, { success: false, message: 'Email not found' });
-        }
-        // 3. all validations passed, call UserRepository to login user
         const result = await UserRepository.UserLogin(email, password);
 
         if (result.success) {
@@ -65,4 +43,67 @@ export class UserController {
             callback(null, { success: false, message: result.message });
         }
     }
-};
+
+
+    public static async IsEmailExistsInDb(call: any, callback: any) {
+        const { email } = call.request;
+
+        const result = await UserService.checkEmailExists(email);
+
+        if (!result.success) {
+            return callback(null, {
+                success: false,
+                message: result.message || 'Unknown error'
+            });
+        }
+
+        if (result.data === true && result.success) {
+            return callback(null, {
+                success: true,
+                message: 'Email exists'
+            });
+        } else {
+            return callback(null, {
+                success: false,
+                message: 'Email does not exist'
+            });
+        }
+    }
+
+    public static async StoreSessionDataToDb(call: any, callback: any) {
+        const { sessionData } = call.request;
+
+        console.log("🟡 [DEBUG] StoreSessionDataToDb called");
+        console.log("📥 sessionData:", sessionData);
+        console.log("📥 sessionData typeof:", typeof sessionData);
+        console.log("📥 sessionData value:", sessionData);
+
+        const result = await UserRepository.storeSessionData(sessionData);
+
+        return callback(null, {
+            success: result.success,
+            sessionData: result.data || null,
+            message: result.message || "Unknown error",
+        });
+    }
+
+
+public static async CheckSessionInDb(call: any, callback: any) {
+    const { sessionID } = call.request;
+
+    console.log("🟡 [DEBUG] CheckSessionInDb called");
+    console.log("🔍 sessionID:", sessionID);
+
+    const result = await UserRepository.getSessionData(sessionID);
+
+    return callback(null, {
+        success: result.success,
+        sessionData: result.data || null,
+        message: result.message || "Session not found"
+    });
+}
+
+
+
+
+}

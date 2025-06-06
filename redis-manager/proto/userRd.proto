@@ -1,0 +1,47 @@
+syntax = "proto3";
+// proto/user.proto
+
+syntax = "proto3";
+
+package user;
+
+service SessionRedisService {
+    rpc StoreSessionToRedis (StoreSessionToRedisRequest) returns (StoreSessionToRedisResponse);
+    rpc CheckSessionInRedis (CheckSessionInRedisRequest) returns (CheckSessionInRedisResponse);
+   
+}
+
+message StoreSessionToRedisRequest{
+    SessionData sessionData = 1 ; 
+}
+
+message StoreSessionToRedisResponse{
+    bool success = 1 
+    SessionData sessionData = 2  ; 
+    string message = 2 ;  
+}
+
+message SessionData {
+    string sessionID = 1 ; 
+    string userUUID = 2 ; 
+    string userEmail = 3 ;
+    string userName = 4 ; 
+}
+
+CheckSessionInRedisRequest{
+    string sessionID = 1 ; 
+}
+
+CheckSessionInRedisResponse{
+    bool success = 1 ;
+    SessionData sessionData = 2 ; 
+}
+
+CheckSessionValidInDbRequest{
+    string sessionID = 1 ;
+}
+CheckSessionValidInDbResponse{
+    bool sucess = 1 ; 
+    SessionData sessionData = 2 ; 
+    string message = 3 ; 
+}
