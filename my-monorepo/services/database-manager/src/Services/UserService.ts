@@ -1,4 +1,4 @@
-import { User } from "../Models/User";
+import { User } from '@myfirstpackage/shared-types';
 import { Result } from '@myfirstpackage/shared-types';
 import { UserRepository } from "../Repositories/UserRepository";
 
