@@ -1,5 +1,5 @@
 import { User } from "../Models/User";
-import { Result } from 'shared-types';
+import { Result } from '@myfirstpackage/shared-types';
 import { UserRepository } from "../Repositories/UserRepository";
 
 export class UserService {

@@ -10,7 +10,7 @@
     "declarationDir": "./dist"
   },
   "include": ["src/**/*",
-              "../database-manager/src/Repositories/UserRepository.ts", 
-              "../database-manager/src/Services/UserService.ts", 
-              "../database-manager/src/Models"]
+              "../my-monorepo/services/database-manager/src/Repositories/UserRepository.ts", 
+              "../my-monorepo/services/database-manager/src/Services/UserService.ts", 
+              "../my-monorepo/services/database-manager/src/Models"]
 }

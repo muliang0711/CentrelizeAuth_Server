@@ -1,6 +1,6 @@
 
-import { User } from "../Models/User";
-import { Result, SessionData } from 'shared-types';// need npm install shared-types
+import { User } from '@myfirstpackage/shared-types';
+import { Result, SessionData } from '@myfirstpackage/shared-types';// need npm install shared-types
 import { MySQLClient } from "../dbClient/dbCilent";
 export class UserRepository {
 

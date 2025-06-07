@@ -1,10 +1,12 @@
 {
+  "name": "database-manager",
+  "version": "1.0.0",
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "@grpc/proto-loader": "^0.7.8",
+    "@myfirstpackage/shared-types": "workspace:*",
     "mysql2": "^3.14.1",
-    "uuid": "^11.1.0",
-    "shared-types": "file:../shared-types"
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
