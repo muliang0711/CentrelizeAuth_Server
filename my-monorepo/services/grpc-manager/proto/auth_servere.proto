@@ -12,7 +12,7 @@ message SessionData {
 service AuthGatewayService {
   rpc Register (RegisterRequest) returns (AuthResponse);
   rpc Login (LoginRequest) returns (LoginResponse);
-  rpc CheckSession (SessionCheckRequest) returns (SessionCheckResponse);
+  rpc CheckSessionValid (SessionCheckRequest) returns (SessionCheckResponse);
   rpc Logout (LogoutRequest) returns (LogoutResponse);
 }
 

@@ -2,7 +2,7 @@
 import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
-import { UserController } from './controller/UserController';
+import { MainServerController } from './controller/UserController';
 
 export class GrpcManager {
     private static readonly PROTO_PATH = path.resolve(__dirname, '../src/proto/user.proto');
@@ -26,9 +26,9 @@ export class GrpcManager {
 
         // 3. Add service implementation
         this.server.addService(userPackage.UserService.service, {
-            RegisterUser: UserController.RegisterUser,
-            LoginUser: UserController.LoginUser,
-            LoginWithToken: UserController.LoginWithToken
+            RegisterUser: MainServerController.RegisterUser,
+            LoginUser: MainServerController.LoginUser,
+            LoginWithToken: MainServerController.LoginWithToken
         });
 
         // 4. Start server

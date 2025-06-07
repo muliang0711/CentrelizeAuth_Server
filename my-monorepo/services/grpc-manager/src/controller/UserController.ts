@@ -51,10 +51,9 @@ export class MainServerController {
                         message: res.message
                     });
                 }
-            }); 
+            });
         });
     }
-
 
     public static async LoginUser(call: any, callback: any) {
         const { email, password } = call.request;
@@ -121,10 +120,9 @@ export class MainServerController {
         });
     }
 
-
     public static async LoginWithToken(call: any, callback: any) {
         // 1. Extract the token from the request
-        const { token , } = call.request;
+        const { token } = call.request;
         // 2. if token is not provided, return an error
         if (!token) {
             return callback({
@@ -138,10 +136,6 @@ export class MainServerController {
         // 4. If the token is valid, check the sessionID : 
         if (result.valid && result.payload) {
 
-            // console.log('Session Validation Result:', sessionData);
-            // console.log('Session Data:', sessionData);
-
-            // 6. Return the session data in the callback
             callback(null, {
                 success: true,
                 message: 'Token is valid',
@@ -154,6 +148,59 @@ export class MainServerController {
             });
         }
     }
+    public static async CheckSessionValid(call: any, callback: any) {
+        const { sessionID } = call.request ;
 
+        if (!sessionID) {
+            return callback(null, {
+                success: false,
+                message: '❌ Session ID is required',
+            });
+        }
+
+        // Step 1: Check Redis
+        redisClient.CheckSessionDataInRedis({ sessionID }, (err: any, redisRes: any) => {
+            if (err) {
+                console.error('❌ Redis Error:', err);
+                return callback(null, {
+                    success: false,
+                    message: 'Internal error while checking Redis'
+                });
+            }
+
+            if (redisRes && redisRes.success) {
+                return callback(null, {
+                    success: true,
+                    message: '✅ Session found in Redis',
+                    sessionData: redisRes.sessionData
+                });
+            }
+
+            // Step 2: Check DB
+            dbClient.CheckSessionValidInDb({ sessionID } ,(err: any, dbRes: any) => {
+                if (err) {
+                    console.error('❌ DB Error:', err);
+                    return callback(null, {
+                        success: false,
+                        message: 'Internal error while checking DB'
+                    });
+                }
+
+                if (dbRes && dbRes.success) {
+                    return callback(null, {
+                        success: true,
+                        message: '✅ Session found in DB',
+                        sessionData: dbRes.sessionData
+                    });
+                }
+
+                // Final fail
+                return callback(null, {
+                    success: false,
+                    message: '❌ Session not found in Redis or DB',
+                });
+            });
+        });
+    }
 }
 
