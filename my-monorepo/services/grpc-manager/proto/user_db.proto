@@ -1,0 +1,74 @@
+syntax = "proto3";
+
+package user;
+
+service UserService {
+  rpc RegisterUserDb (RegisterRequestDB) returns (UserRegisterResponseDB);
+  rpc LoginUserDb (LoginRequestDB)       returns (UserLoginResponseDB);
+  rpc StoreSessionDataToDb (StoreSessionDataToDbRequest) returns (StoreSessionDataToDbResponse);
+  rpc CheckSessionValidInDb (CheckSessionValidInDbRequest) returns (CheckSessionValidInDbResponse);
+  rpc IsEmailExistsInDb (IsEmailExistsInDbRequest) returns (IsEmailExistsInDbResponse);
+}
+
+message SessionData {
+  string sessionID = 1;
+  string userUUID = 2;
+  string userEmail = 3;
+  string userName = 4;
+}
+
+message RegisterRequestDB {
+  string userName = 1;
+  string email = 2;
+  string password = 3;
+}
+
+message LoginRequestDB {
+  string email = 1;
+  string password = 2;
+}
+
+message UserRegisterResponseDB {
+  bool success = 1;
+  string message = 2;
+  string uuid = 3;
+  string userName = 4;
+  string email = 5;
+}
+
+message UserLoginResponseDB {
+  bool success = 1;
+  string message = 2;
+  string uuid = 3;
+  string userName = 4;
+  string email = 5;
+}
+
+message StoreSessionDataToDbRequest {
+  SessionData sessionData = 1;
+}
+
+message StoreSessionDataToDbResponse {
+  bool success = 1;
+  SessionData sessionData = 2;
+  string message = 3;
+}
+
+message CheckSessionValidInDbRequest {
+  string sessionID = 1;
+}
+
+message CheckSessionValidInDbResponse {
+  bool success = 1;
+  SessionData sessionData = 2;
+  string message = 3;
+}
+
+message IsEmailExistsInDbRequest {
+  string email = 1;
+}
+
+message IsEmailExistsInDbResponse {
+  bool success = 1;
+  string message = 2;
+}

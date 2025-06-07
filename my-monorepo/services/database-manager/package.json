@@ -1,6 +1,10 @@
 {
   "name": "database-manager",
   "version": "1.0.0",
+  "scripts": {
+    "build" : "tsc -p tsconfig.json",
+    "dev" : "ts-node src/server.ts"
+  },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "@grpc/proto-loader": "^0.7.8",

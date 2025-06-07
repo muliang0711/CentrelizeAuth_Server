@@ -4,7 +4,7 @@ import path from 'path';
 import { UserController } from './Controllers/UserController';
 import { MySQLClient } from './dbClient/dbCilent';
 
-const PROTO_PATH = path.resolve(__dirname, '../proto/userDb.proto');
+const PROTO_PATH = path.resolve(__dirname, '../proto/user_db.proto');
 console.log('✅ PROTO_PATH =', PROTO_PATH);
 const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     keepCase: true,
