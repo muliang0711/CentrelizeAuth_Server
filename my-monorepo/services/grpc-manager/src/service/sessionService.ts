@@ -1,9 +1,7 @@
 // services/SessionManager.ts
 import { v4 as uuidv4 } from 'uuid';
 import crypto from 'crypto';
-import { MySQLManager } from '../../../my-monorepo/services/database-manager/dist/dbManager';
-import { Result } from '../../../shared-types/dist/common';// need npm install shared-types
-import { RedisManager } from '../../../redis-manager/dist/redisManager';
+import { Result } from '@myfirstpackage/shared-types';// need npm install shared-types
 export interface SessionData {
     sessionID: string;
     userUUID: string;

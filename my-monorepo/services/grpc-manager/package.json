@@ -10,15 +10,15 @@
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "@grpc/proto-loader": "^0.7.8",
-    "shared-types": "file:../shared-types/dist",
-    "uuid": "^11.1.0",
-    "jsonwebtoken": "^9.0.2"
+    "@myfirstpackage/shared-types": "workspace:*",
+    "jsonwebtoken": "^9.0.2",
+    "uuid": "^11.1.0"
   },
   "devDependencies": {
-    "typescript": "^5.3.3",
-    "ts-node": "^10.9.2",
+    "@types/jsonwebtoken": "^9.0.9",
     "@types/node": "^20.9.0",
     "@types/uuid": "^10.0.0",
-    "@types/jsonwebtoken": "^9.0.9"
+    "ts-node": "^10.9.2",
+    "typescript": "^5.3.3"
   }
 }

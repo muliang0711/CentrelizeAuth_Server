@@ -1,5 +1,4 @@
-import {  Result , SessionData  } from 'shared-types';
-import { User } from '../Models/User';
+import {User ,  Result , SessionData  } from '@myfirstpackage/shared-types';
 import { tokenManager} from '../service/jwtService';
 import { SessionManager } from '../service/sessionService';
 export class UserController {
