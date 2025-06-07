@@ -1,12 +1,12 @@
 // src/controller/SessionRedisController.ts
 
 import { RedisManager } from '../redisManager';
-import { SessionData } from '@myfirstpackage/shared-types';
+// import { SessionData } from '@myfirstpackage/shared-types';
 
 export class SessionRedisController {
 
 
-    public static async StoreSessionToRedis(call: any, callback: any) {
+    public static async StoreSessionDataToRedis(call: any, callback: any) {
         try {
             const { sessionData , exptime } = call.request;
 
@@ -29,7 +29,7 @@ export class SessionRedisController {
         }
     }
 
-    public static async CheckSessionInRedis(call: {request : {sessionID : string } }, callback: any) {
+    public static async CheckSessionDataInRedis(call: {request : {sessionID : string } }, callback: any) {
         try {
             const { sessionID } = call.request;
             const redisKey = `session:${sessionID}`;

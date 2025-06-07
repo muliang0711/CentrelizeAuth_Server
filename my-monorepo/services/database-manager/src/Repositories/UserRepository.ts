@@ -88,15 +88,21 @@ export class UserRepository {
     public static async storeSessionData(sessionData: SessionData): Promise<Result<SessionData>> {
         try {
             const sql = 'INSERT INTO sessions (sessionId , sessionData , createdAT , expiresAT ) VALUES (?, ? , ? , ? )';
-            
+
+            function toMySQLDatetime(ms: number): string {
+                return new Date(ms).toISOString().slice(0, 19).replace('T', ' ');
+            }
+
             const createdAt = Date.now(); 
             const expiresAt = createdAt + 30 * 24 * 60 * 60 * 1000; 
+            //console.log(createdAt);
+            //console.log(expiresAt);
 
             const [result]: any = await MySQLClient.getPool().execute(sql, [
                 sessionData.sessionID,
                 JSON.stringify(sessionData),
-                createdAt,
-                expiresAt
+                toMySQLDatetime(createdAt),
+                toMySQLDatetime(expiresAt)
             ]);
 
             console.log('✅ [DEBUG] Session stored:', sessionData);

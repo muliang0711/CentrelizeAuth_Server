@@ -28,8 +28,8 @@ async function main() {
 
         // 3. Register service and handler
         server.addService(userPackage.SessionRedisService.service, {
-            StoreSessionToRedis: SessionRedisController.StoreSessionToRedis,
-            CheckSessionInRedis: SessionRedisController.CheckSessionInRedis,
+            StoreSessionDataToRedis: SessionRedisController.StoreSessionDataToRedis,
+            CheckSessionDataInRedis: SessionRedisController.CheckSessionDataInRedis,
             DeleteSessionDataInRedisByID: SessionRedisController.DeleteSessionDataInRedisById
         });
 

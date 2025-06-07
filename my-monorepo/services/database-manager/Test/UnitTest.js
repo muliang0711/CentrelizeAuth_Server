@@ -19,7 +19,7 @@ const client = new userPackage.UserService('localhost:50052', grpc.credentials.c
 
 const testUser = {
   userName: 'HY Tester',
-  email: 'hytester@example.com',
+  email: 'hytester222@example.com',
   password: 'strongpassword123'
 };
 
@@ -110,7 +110,6 @@ function testIsEmailExistsInDb(email) {
     userName: 'HY Tester'
   };
 
-  // 顺序执行测试
   async function runTests() {
     await testStoreSessionToDB(sampleSession);
     await testCheckSessionInDB(sampleSession.sessionID);

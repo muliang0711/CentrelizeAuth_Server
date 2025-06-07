@@ -82,6 +82,7 @@ export class MainServerController {
                 email: res.email,
                 name: res.userName
             });
+                    console.log(token);
 
             // 4. Create session data object
             const sessionData = await SessionManager.generateSession(res.uuid, res.email, res.userName);
@@ -99,7 +100,7 @@ export class MainServerController {
                 // 6. Save session to Redis via gRPC
                 const exptime = 60 * 60 * 24 * 30; // 30 days
 
-                redisClient.StoreSessionToRedis({ sessionData, exptime }, (errRedis: any, redisRes: any) => {
+                redisClient.StoreSessionDataToRedis({ sessionData, exptime }, (errRedis: any, redisRes: any) => {
                     if (errRedis || !redisRes.success) {
                         console.error('❌ Failed to store session in Redis:', errRedis?.message || redisRes?.message);
                         return callback(null, {
@@ -123,6 +124,7 @@ export class MainServerController {
     public static async LoginWithToken(call: any, callback: any) {
         // 1. Extract the token from the request
         const { token } = call.request;
+
         // 2. if token is not provided, return an error
         if (!token) {
             return callback({
@@ -143,7 +145,7 @@ export class MainServerController {
             });
         } else {
             callback({
-                code: 401,
+                success : false , 
                 message: result.message
             });
         }

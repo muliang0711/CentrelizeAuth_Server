@@ -10,10 +10,11 @@ message SessionData {
 }
 
 service AuthGatewayService {
-  rpc Register (RegisterRequest) returns (AuthResponse);
-  rpc Login (LoginRequest) returns (LoginResponse);
+  rpc RegisterUser (RegisterRequest) returns (AuthResponse);
+  rpc LoginUser (LoginRequest) returns (LoginResponse);
   rpc CheckSessionValid (SessionCheckRequest) returns (SessionCheckResponse);
   rpc Logout (LogoutRequest) returns (LogoutResponse);
+  rpc LoginWithToken (LoginWithTokenRequest ) returns (LoginWithTokenResponse);
 }
 
 message RegisterRequest {
@@ -55,4 +56,12 @@ message LogoutRequest {
 message LogoutResponse {
   bool success = 1;
   string message = 2;
+}
+
+message LoginWithTokenResponse{
+  bool success = 1 ;
+  string message = 2 ;  
+}
+message LoginWithTokenRequest{
+  string token = 1  ; 
 }
