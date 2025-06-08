@@ -1,18 +1,22 @@
 // 1. a function that store the session id as key and session data as value in redis
 import Redis from 'ioredis';
 import { SessionData } from '@myfirstpackage/shared-types';
-
+import dotenv from 'dotenv';
+dotenv.config(); 
 export class RedisManager {
 
     // Call this once during app startup
     private static client: Redis | null = null;
 
-    // 初始化 Redis
+
     public static async init(): Promise<void> {
         if (!RedisManager.client) {
+            const host = process.env.REDIS_HOST || 'localhost';
+            const port = parseInt(process.env.REDIS_PORT || '6379', 10);
+
             RedisManager.client = new Redis({
-                host: 'localhost',
-                port: 6379,
+                host,
+                port,
             });
 
             RedisManager.client.on('connect', () => {
@@ -24,7 +28,6 @@ export class RedisManager {
             });
         }
     }
-
     public static getClient(): Redis {
         if (!RedisManager.client) {
             throw new Error('Redis not initialized');

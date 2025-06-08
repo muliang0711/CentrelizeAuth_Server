@@ -30,6 +30,27 @@ services:
     networks:
       - internal
 
+  redis:
+    image: redis:7
+    container_name: redis
+    ports:
+      - "6379:6379"
+    networks:
+      - internal
+
+  redis-manager:
+    build:
+      context: .
+      dockerfile: ./services/redis-manager/Dockerfile
+    container_name: redis-manager
+    depends_on:
+      redis:
+        condition: service_healthy
+    working_dir: /app/services/redis-manager
+    ports:
+      - "50053:50053" # optional if gRPC or REST exposed
+    networks:
+      - internal
 
 networks:
   internal:

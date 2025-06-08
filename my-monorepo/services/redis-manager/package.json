@@ -5,12 +5,13 @@
   "scripts": {
     "build": "tsc -p tsconfig.json",
     "dev": "ts-node src/server.ts",
-    "test" : "jest"
+    "test": "jest"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "@grpc/proto-loader": "^0.7.8",
     "@myfirstpackage/shared-types": "workspace:*",
+    "dotenv": "^16.5.0",
     "ioredis": "^5.6.1",
     "list": "^2.0.19",
     "redis": "^5.5.5"
