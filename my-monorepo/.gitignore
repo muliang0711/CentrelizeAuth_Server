@@ -4,3 +4,4 @@
 # TypeScript compiled output
 **/dist/
 
+**/env

@@ -1,0 +1,36 @@
+
+
+services:
+  mysql:
+    image: mysql:8
+    container_name: mysql
+    environment:
+      MYSQL_ROOT_PASSWORD: 1234aaa0987
+      MYSQL_DATABASE: userServer
+    healthcheck:
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      interval: 5s
+      retries: 10
+    volumes:
+      - ./services/database-manager/sql/init.sql:/docker-entrypoint-initdb.d/init.sql
+    networks:
+      - internal
+
+  database-manager:
+    build:
+      context: .
+      dockerfile: ./services/database-manager/Dockerfile
+    container_name: database-manager
+    depends_on:
+      mysql : 
+        condition: service_healthy
+    working_dir: /app/services/database-manager
+    ports:
+      - "50052:50052"
+    networks:
+      - internal
+
+
+networks:
+  internal:
+    driver: bridge

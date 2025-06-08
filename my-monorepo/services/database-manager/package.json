@@ -2,21 +2,21 @@
   "name": "database-manager",
   "version": "1.0.0",
   "scripts": {
-    "build" : "tsc -p tsconfig.json",
-    "dev" : "ts-node src/server.ts"
+    "build": "tsc -p tsconfig.json",
+    "dev": "ts-node src/server.ts"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",
     "@grpc/proto-loader": "^0.7.8",
     "@myfirstpackage/shared-types": "workspace:*",
+    "dotenv": "^16.5.0",
     "mysql2": "^3.14.1",
     "uuid": "^11.1.0"
   },
   "devDependencies": {
     "@types/node": "^22.15.29",
     "@types/uuid": "^10.0.0",
-    "typescript": "^5.8.3",
-    "ts-node": "^10.9.2"
-
+    "ts-node": "^10.9.2",
+    "typescript": "^5.8.3"
   }
 }
