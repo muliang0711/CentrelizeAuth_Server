@@ -9,8 +9,5 @@
     "declaration": true,
     "declarationDir": "./dist"
   },
-  "include": ["src/**/*",
-              "../my-monorepo/services/database-manager/src/Repositories/UserRepository.ts", 
-              "../my-monorepo/services/database-manager/src/Services/UserService.ts", 
-              "../my-monorepo/services/database-manager/src/Models"]
+  "include": ["src/**/*"]
 }

@@ -3,6 +3,7 @@ import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import {SessionRedisController} from './Controller/UserController';
 import { RedisManager} from './redisManager'
+
 // 1. Load proto file
 const userProtoPath = path.resolve(__dirname, '../proto/userSessionRedis.proto');
 const userProtoDefinition = protoLoader.loadSync(userProtoPath, {

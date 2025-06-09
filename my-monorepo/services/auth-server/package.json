@@ -1,11 +1,11 @@
 {
-  "name": "grpc-manager",
+  "name": "auth-server",
   "version": "1.0.0",
   "main": "dist/grpcServer.js",
   "scripts": {
     "build": "tsc",
     "start": "node dist/grpcServer.js",
-    "dev": "ts-node src/grpcServer.ts"
+    "dev": "ts-node src/server.ts"
   },
   "dependencies": {
     "@grpc/grpc-js": "^1.8.13",

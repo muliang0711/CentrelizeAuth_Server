@@ -14,12 +14,20 @@ const packageDefinition = protoLoader.loadSync(PROTO_PATH, {
     oneofs: true,
 });
 
+import {
+  MYSQL_HOST,
+  MYSQL_PORT,
+  MYSQL_USER,
+  MYSQL_PASSWORD,
+  MYSQL_DATABASE,
+  MYSQL_GRPC_PORT
+} from './config';
 const grpcObject = grpc.loadPackageDefinition(packageDefinition) as any;
 const userPackage = grpcObject.user;
 
 async function main() {
 
-    await MySQLClient.initialize();
+    await MySQLClient.initialize(MYSQL_HOST , MYSQL_PORT ,MYSQL_USER , MYSQL_PASSWORD , MYSQL_DATABASE);
 
     const server = new grpc.Server();
     server.addService(userPackage.UserService.service, {
@@ -30,7 +38,7 @@ async function main() {
         IsEmailExistsInDb: UserController.IsEmailExistsInDb,
     });
 
-    const PORT = '0.0.0.0:50052';
+    const PORT =  MYSQL_GRPC_PORT;
     server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), (err, port) => {
         if (err) {
             console.error('❌ Failed to start gRPC server:', err);

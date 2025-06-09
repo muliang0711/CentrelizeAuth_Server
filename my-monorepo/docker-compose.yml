@@ -8,7 +8,7 @@ services:
       MYSQL_ROOT_PASSWORD: 1234aaa0987
       MYSQL_DATABASE: userServer
     healthcheck:
-      test: ["CMD", "mysqladmin", "ping", "-h", "localhost"]
+      test: ["CMD", "mysqladmin", "ping", "-h", "localhost", "-u", "root", "-p1234aaa0987"]
       interval: 5s
       retries: 10
     volumes:
@@ -25,30 +25,13 @@ services:
       mysql : 
         condition: service_healthy
     working_dir: /app/services/database-manager
+    healthcheck:
+      test: ["CMD", "grpc_health_probe", "-addr=:50052"]
+      interval: 5s
+      timeout: 3s
+      retries: 5
     ports:
       - "50052:50052"
-    networks:
-      - internal
-
-  redis:
-    image: redis:7
-    container_name: redis
-    ports:
-      - "6379:6379"
-    networks:
-      - internal
-
-  redis-manager:
-    build:
-      context: .
-      dockerfile: ./services/redis-manager/Dockerfile
-    container_name: redis-manager
-    depends_on:
-      redis:
-        condition: service_healthy
-    working_dir: /app/services/redis-manager
-    ports:
-      - "50053:50053" # optional if gRPC or REST exposed
     networks:
       - internal
 

@@ -10,3 +10,4 @@ export const MYSQL_PORT = Number(process.env.MYSQL_PORT || 33061);
 export const MYSQL_USER = process.env.MYSQL_USER || 'root';
 export const MYSQL_PASSWORD = process.env.MYSQL_PASSWORD || '';
 export const MYSQL_DATABASE = process.env.MYSQL_DATABASE || 'testdb';
+export const MYSQL_GRPC_PORT = process.env.MYSQL_GRPC_PORT || "error port " ; 
