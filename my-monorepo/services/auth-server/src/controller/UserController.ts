@@ -1,9 +1,7 @@
 import { User, Result, SessionData } from '@myfirstpackage/shared-types';
 import { tokenManager } from '../service/jwtService';
 import { SessionManager } from '../service/sessionService';
-import { dbClient } from "../grpc/dbClient";
-import redisClient from "../grpc/rdClient";
-
+import { dbClient , redisClient } from '../server';
 export class MainServerController {
 
     public static async RegisterUser(call: any, callback: any) {

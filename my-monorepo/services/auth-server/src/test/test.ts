@@ -4,7 +4,8 @@ import * as grpc from '@grpc/grpc-js';
 import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import { tokenManager } from '../service/jwtService';
-// 1. 加载 AuthGatewayService 的 proto 文件
+
+// 1. Load AuthGatewayService proto
 const PROTO_PATH = path.resolve(__dirname, '../../proto/auth_gateway.proto');
 const packageDef = protoLoader.loadSync(PROTO_PATH, {
   keepCase: true,
@@ -15,19 +16,29 @@ const packageDef = protoLoader.loadSync(PROTO_PATH, {
 });
 const grpcObj = grpc.loadPackageDefinition(packageDef) as any;
 
-// 2. 创建 gRPC 客户端实例
-// 1. This code is for creating the AuthGatewayService client
+// 2. Create AuthGatewayService gRPC client
 const authClient = new grpcObj.main.AuthGatewayService(
   'localhost:50051',
   grpc.credentials.createInsecure()
 );
 
-// 3. 定义测试函数
+// 3. Define test user & session data
+const testUser = {
+  userName: 'HY',
+  email: 'hya1123@example.com',
+  password: 'secret',
+  sessionID: '',
+  token: '',
+};
 
-// 1. This code is for testing RegisterUser RPC
-function testRegisterUser() {
+// 4. This code is for testing RegisterUser RPC
+function testRegisterUser(): void {
   authClient.RegisterUser(
-    { userName: 'HY', email: 'hya112@example.com', password: 'secret' },
+    {
+      userName: testUser.userName,
+      email: testUser.email,
+      password: testUser.password,
+    },
     (err: grpc.ServiceError | null, res: any) => {
       if (err) {
         console.error('Test 1 : RegisterUser Error:', err.message);
@@ -38,22 +49,27 @@ function testRegisterUser() {
   );
 }
 
-// 1. This code is for testing LoginUser RPC
-function testLoginUser() {
+// 5. This code is for testing LoginUser RPC
+function testLoginUser(): void {
   authClient.LoginUser(
-    { email: 'hya112@example.com', password: 'secret' },
+    {
+      email: testUser.email,
+      password: testUser.password,
+    },
     (err: grpc.ServiceError | null, res: any) => {
       if (err) {
         console.error('Test 2 : LoginUser Error:', err.message);
       } else {
         console.log('Test 2 : LoginUser Response:', res);
+        testUser.sessionID = res?.sessionData?.sessionID || '';
+        testUser.token = res?.token || '';
       }
     }
   );
 }
 
-// 1. This code is for testing CheckSessionValid RPC
-function testCheckSessionValid(sessionID: string) {
+// 6. This code is for testing CheckSessionValid RPC
+function testCheckSessionValid(sessionID: string): void {
   authClient.CheckSessionValid(
     { sessionID },
     (err: grpc.ServiceError | null, res: any) => {
@@ -66,8 +82,8 @@ function testCheckSessionValid(sessionID: string) {
   );
 }
 
-// 1. This code is for testing Logout RPC
-function testLogout(sessionID: string) {
+// 7. This code is for testing Logout RPC
+function testLogout(sessionID: string): void {
   authClient.Logout(
     { sessionID },
     (err: grpc.ServiceError | null, res: any) => {
@@ -80,8 +96,8 @@ function testLogout(sessionID: string) {
   );
 }
 
-// 1. This code is for testing LoginWithToken RPC
-function testLoginWithToken(token: string) {
+// 8. This code is for testing LoginWithToken RPC
+function testLoginWithToken(token: string): void {
   authClient.LoginWithToken(
     { token },
     (err: grpc.ServiceError | null, res: any) => {
@@ -94,17 +110,32 @@ function testLoginWithToken(token: string) {
   );
 }
 
-// 4. 顺序执行各个测试
-async function main() {
+// 9. Run all tests in sequence using setTimeout
+async function main(): Promise<void> {
   testRegisterUser();
+
   setTimeout(() => {
     testLoginUser();
-    const fakeSessionID = 'bf3148946bf996d31c9b7fff523c4d09089cec30eb092e213ea8c46f4edce09a';
-    const fakeToken = tokenManager.generateToken({uuid : "dwiehyvbiub" , email : "wd2ewiiuh" , name : "weiygiu" })
-    testCheckSessionValid(fakeSessionID);
-    testLogout(fakeSessionID);
-    testLoginWithToken(fakeToken);
   }, 1000);
+
+  setTimeout(() => {
+    const sessionID = testUser.sessionID || 'fake-session-id';
+    testCheckSessionValid(sessionID);
+  }, 2000);
+
+  setTimeout(() => {
+    const sessionID = testUser.sessionID || 'fake-session-id';
+    testLogout(sessionID);
+  }, 3000);
+
+  setTimeout(() => {
+    const token = testUser.token || tokenManager.generateToken({
+      uuid: 'fake-uuid',
+      email: testUser.email,
+      name: testUser.userName,
+    });
+    testLoginWithToken(token);
+  }, 4000);
 }
 
 main();

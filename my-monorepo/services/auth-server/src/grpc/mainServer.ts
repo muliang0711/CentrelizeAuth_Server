@@ -8,7 +8,7 @@ export class GrpcManager {
     private static readonly PROTO_PATH = path.resolve(__dirname, '../../proto/auth_gateway.proto');
     private static server: grpc.Server;
 
-    public static async initializeGrpcServer(): Promise<void> {
+    public static async initializeGrpcServer(MAINSERVER_GRPC_PORT : string ): Promise<void> {
         // 1. Load proto definition
         const packageDef = protoLoader.loadSync(this.PROTO_PATH, {
             keepCase: true,
@@ -33,7 +33,7 @@ export class GrpcManager {
         });
 
         // 4. Start server
-        const PORT = '0.0.0.0:50051';
+        const PORT = MAINSERVER_GRPC_PORT ; 
         this.server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) {
                 console.error('❌ gRPC server error:', err.message);
