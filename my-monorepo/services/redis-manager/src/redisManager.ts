@@ -1,25 +1,17 @@
-// 1. a function that store the session id as key and session data as value in redis
 import Redis from 'ioredis';
 import { SessionData } from '@myfirstpackage/shared-types';
-require('dotenv').config();
-import {
-    REDIS_NAME , 
-    REDIS_PORT 
-} from './config';
-export class RedisManager {
 
-    // Call this once during app startup
+export class RedisManager {
     private static client: Redis | null = null;
 
-
-    public static async init(): Promise<void> {
+    /**
+     * Initialize the Redis client with host and port.
+     */
+    public static async init(REDIS_NAME: string, REDIS_PORT: string): Promise<void> {
         if (!RedisManager.client) {
-            const host = REDIS_NAME ;
-            const port = Number(REDIS_PORT) ;
-
             RedisManager.client = new Redis({
-                host,
-                port,
+                host: REDIS_NAME,
+                port: parseInt(REDIS_PORT, 10)
             });
 
             RedisManager.client.on('connect', () => {
@@ -31,6 +23,10 @@ export class RedisManager {
             });
         }
     }
+
+    /**
+     * Return Redis client singleton instance.
+     */
     public static getClient(): Redis {
         if (!RedisManager.client) {
             throw new Error('Redis not initialized');
@@ -38,11 +34,9 @@ export class RedisManager {
         return RedisManager.client;
     }
 
-    //public static async setSessionDataAsString(sessionId: string, sessionData: any, ttlSeconds: number): Promise<void> {
-    //   await this.redis.setex(sessionId, ttlSeconds, JSON.stringify(sessionData));
-    // } // not more used
-
-    // Function that set the session data in Redis with a hash :
+    /**
+     * Store session data in Redis as a hash, with TTL (expiration in seconds).
+     */
     public static async setSessionDataAsHash(sessionId: string, sessionData: SessionData, ttlSeconds: number): Promise<void> {
         await RedisManager.getClient().hset(`session:${sessionId}`, {
             sessionID: sessionData.sessionID,
@@ -53,24 +47,27 @@ export class RedisManager {
         await RedisManager.getClient().expire(`session:${sessionId}`, ttlSeconds);
     }
 
-    // Function to get session data from Redis by sessionId
+    /**
+     * Retrieve session data from Redis by session ID.
+     */
     public static async getSessionData(sessionId: string): Promise<SessionData | null> {
         const sessionData = await RedisManager.getClient().hgetall(`session:${sessionId}`);
         if (sessionData && Object.keys(sessionData).length > 0) {
-            // Map the string values to SessionData type
             return {
                 sessionID: sessionData.sessionID,
                 userUUID: sessionData.userUUID,
                 userEmail: sessionData.userEmail,
                 userName: sessionData.userName
-            } as SessionData;
+            };
         }
         return null;
     }
+
+    /**
+     * Delete session data by Redis key.
+     * Returns the number of keys deleted (0 or 1).
+     */
     public static async deleteSessionData(key: string): Promise<number> {
-        return await RedisManager.getClient().del(key) // return a number that success del how many key 
+        return await RedisManager.getClient().del(key);
     }
-
-    
-
 }

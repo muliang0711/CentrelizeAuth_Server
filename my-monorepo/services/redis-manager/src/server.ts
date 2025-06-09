@@ -3,6 +3,12 @@ import * as protoLoader from '@grpc/proto-loader';
 import path from 'path';
 import {SessionRedisController} from './Controller/UserController';
 import { RedisManager} from './redisManager'
+require('dotenv').config();
+import {
+    REDIS_NAME , 
+    REDIS_PORT ,
+    REDIS_GRPC_PORT
+} from './config';
 
 // 1. Load proto file
 const userProtoPath = path.resolve(__dirname, '../proto/userSessionRedis.proto');
@@ -22,7 +28,7 @@ const userPackage = grpcObj.user;
 async function main() {
     try {
 
-        await RedisManager.init(); 
+        await RedisManager.init(REDIS_NAME , REDIS_PORT); 
         console.log('✅ Redis Client Initialized');
 
         const server = new grpc.Server();
@@ -34,7 +40,7 @@ async function main() {
             DeleteSessionDataInRedisByID: SessionRedisController.DeleteSessionDataInRedisById
         });
 
-        const PORT = '0.0.0.0:50053';
+        const PORT = REDIS_GRPC_PORT ;
         server.bindAsync(PORT, grpc.ServerCredentials.createInsecure(), (err, port) => {
             if (err) {
                 console.error('❌ Failed to start gRPC server:', err);
