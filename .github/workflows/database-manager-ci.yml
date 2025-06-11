@@ -3,11 +3,11 @@ name: CI - Database Manager gRPC Test
 on:
   push:
     paths:
-      - 'services/database-manager/**'
+      - 'my-monorepo/services/database-manager/**'
       - 'docker-compose.yml'
   pull_request:
     paths:
-      - 'services/database-manager/**'
+      - 'my-monorepo/services/database-manager/**'
       - 'docker-compose.yml'
 
 jobs:
