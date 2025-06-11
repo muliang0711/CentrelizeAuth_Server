@@ -1,0 +1,27 @@
+name: CI - Database Manager gRPC Test
+
+on:
+  push:
+    paths:
+      - 'services/database-manager/**'
+      - 'docker-compose.yml'
+  pull_request:
+    paths:
+      - 'services/database-manager/**'
+      - 'docker-compose.yml'
+
+jobs:
+  test-database-manager:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: ⬇️ Checkout code
+        uses: actions/checkout@v3
+
+      - name: 🐳 Compose up with MySQL + Database Manager
+        run: |
+          docker-compose -f docker-compose.yml up --build --abort-on-container-exit \
+            database-manager mysql
+
+      - name: 🧼 Cleanup containers
+        run: docker-compose down --volumes

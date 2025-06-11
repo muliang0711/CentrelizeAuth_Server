@@ -22,6 +22,7 @@ import {
     MYSQL_DATABASE,
     MYSQL_GRPC_PORT
 } from './config';
+
 const grpcObject = grpc.loadPackageDefinition(packageDefinition) as any;
 const userPackage = grpcObject.user;
 
