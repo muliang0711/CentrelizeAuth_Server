@@ -24,4 +24,5 @@ jobs:
             database-manager mysql
 
       - name: 🧼 Cleanup containers
-        run: docker-compose down --volumes
+        run: docker-compose down --volumes 
+        
