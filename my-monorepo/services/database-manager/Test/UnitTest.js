@@ -96,7 +96,7 @@ function testIsEmailExistsInDb(email) {
       }
       resolve();
     });
-  });
+  }); 
 }
 
 (async () => {
