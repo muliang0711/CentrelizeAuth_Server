@@ -23,6 +23,9 @@ jobs:
           docker-compose -f docker-compose.yml up --build --abort-on-container-exit \
             database-manager mysql
 
+      - name: running the test 
+        run : pnpm test 
+
       - name: 🧼 Cleanup containers
         run: docker-compose down --volumes 
         

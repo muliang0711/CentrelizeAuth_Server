@@ -106,7 +106,7 @@ function testIsEmailExistsInDb(email) {
     const sampleSession = {
     sessionID: 'sess-00123',
     userUUID: 'uuid-abcde-999',
-    userEmail: 'hytester@example.com',
+    userEmail: 'hytester123@example.com',
     userName: 'HY Tester'
   };
 
