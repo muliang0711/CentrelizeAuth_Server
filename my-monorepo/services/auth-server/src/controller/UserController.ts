@@ -3,6 +3,7 @@ import { tokenManager } from '../service/jwtService';
 import { SessionManager } from '../service/sessionService';
 import { dbClient , redisClient } from '../server';
 export class MainServerController {
+// dummy trigger test
 
     public static async RegisterUser(call: any, callback: any) {
         const { userName, email, password } = call.request;

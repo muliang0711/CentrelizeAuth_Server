@@ -9,6 +9,7 @@ on:
     paths:
       - 'services/database-manager/**'
       - 'docker-compose.yml'
+  workflow_dispatch:
 
 jobs:
   test-database-manager:
@@ -23,9 +24,16 @@ jobs:
           docker-compose -f docker-compose.yml up --build --abort-on-container-exit \
             database-manager mysql
 
-      - name: running the test 
-        run : pnpm test 
+      - name: 🛠 Setup pnpm
+        uses: pnpm/action-setup@v2
+        with:
+          version: 8
+
+      - name: 📦 Install dependencies
+        run: pnpm install
+
+      - name: 🧪 Run test
+        run: pnpm --filter ./services/database-manager... test
 
       - name: 🧼 Cleanup containers
-        run: docker-compose down --volumes 
-        
+        run: docker-compose down --volumes
